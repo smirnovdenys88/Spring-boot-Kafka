@@ -1,0 +1,16 @@
+version: '2'
+services:
+  app1:
+    image: app1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "9010:8080"
+  app2:
+    image: app2
+    build: .
+    container_name: backend1
+    ports:
+      - "9011:8080"
