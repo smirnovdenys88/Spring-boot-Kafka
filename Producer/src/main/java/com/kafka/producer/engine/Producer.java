@@ -6,13 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.KafkaHeaders;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
-import java.util.UUID;
 
 @Service
 public class Producer {
@@ -22,18 +18,18 @@ public class Producer {
     private static final Random RANDOM = new Random();
 
     @Autowired
-    private KafkaTemplate<String, User> kafkaTemplate;
+    private KafkaTemplate<String, User> userKafkaTemplate;
+
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     public void sendMessage(String messages) throws InterruptedException {
         logger.info(String.format("#### -> Producing message -> %s", messages));
+        this.kafkaTemplate.send(TOPIC, messages);
+    }
 
-        User user = new User("Name_" + UUID.randomUUID().toString(), RANDOM.nextInt());
-
-        Message<User> message = MessageBuilder
-                .withPayload(user)
-                .setHeader(KafkaHeaders.TOPIC, TOPIC)
-                .setHeader(KafkaHeaders.PARTITION_ID, 1)
-                .build();
-        this.kafkaTemplate.send(message);
+    public void sendUser(User user) {
+        logger.info(String.format("#### -> Producing User -> %s", user));
+        this.userKafkaTemplate.send("user",user);
     }
 }

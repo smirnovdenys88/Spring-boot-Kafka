@@ -1,8 +1,11 @@
 package com.kafka.producer.controller;
 
 import com.kafka.producer.engine.Producer;
+import com.kafka.producer.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +23,7 @@ public class KafkaController {
         this.producer = producer;
     }
 
-    @GetMapping(value = "/publish")
+    @GetMapping("/publish")
     public void sendMessageToKafkaTopic(@RequestParam("message") String message) {
         CompletableFuture.runAsync(() -> {
             try {
@@ -29,5 +32,10 @@ public class KafkaController {
                 e.printStackTrace();
             }
         });
+    }
+
+    @PostMapping("/publish/user")
+    public void sendMessageToKafkaTopic(@RequestBody User user) {
+        producer.sendUser(user);
     }
 }
