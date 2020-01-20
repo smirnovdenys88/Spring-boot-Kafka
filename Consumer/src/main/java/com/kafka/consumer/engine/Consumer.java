@@ -1,7 +1,9 @@
 package com.kafka.consumer.engine;
 
 import com.kafka.consumer.models.User;
+import com.kafka.consumer.models.UserData;
 import com.kafka.consumer.repo.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +27,10 @@ public class Consumer {
     @KafkaListener(topics = "user", containerFactory = "kafkaListenerContainerFactoryUser")
     public void consumeUser(User user) throws IOException {
         logger.info(String.format("#### -> Consumed User: %s ", user));
+
+        ModelMapper mapper = new ModelMapper();
+        UserData userData = mapper.map(user, UserData.class);
+
+        userRepository.save(userData);
     }
 }

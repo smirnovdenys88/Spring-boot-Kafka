@@ -1,9 +1,41 @@
+server:
+  port: 8091
 spring:
+  profiles: C1
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/comsumer_1
+    username: postgres
+    password: masterkey
+    driverClassName: org.postgresql.Driver
   kafka:
     address: localhost:9092
     consumer:
+      group-id: C1
       bootstrap-servers: localhost:9092
-      group-id: foo
       auto-offset-reset: earliest
-#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-#      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+---
+spring:
+  profiles: C2
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/comsumer_2
+    username: postgres
+    password: masterkey
+    driverClassName: org.postgresql.Driver
+  kafka:
+    address: localhost:9092
+    consumer:
+      group-id: C2
+      bootstrap-servers: localhost:9092
+      auto-offset-reset: earliest
