@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.CompletableFuture;
+
 @RestController
 @RequestMapping(value = "/kafka")
 public class KafkaController {
@@ -20,8 +22,12 @@ public class KafkaController {
 
     @GetMapping(value = "/publish")
     public void sendMessageToKafkaTopic(@RequestParam("message") String message) {
-        for (int i = 0; i < 100; i++) {
-            this.producer.sendMessage(message + " " + i);
-        }
+        CompletableFuture.runAsync(() -> {
+            try {
+                producer.sendMessage(message);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
