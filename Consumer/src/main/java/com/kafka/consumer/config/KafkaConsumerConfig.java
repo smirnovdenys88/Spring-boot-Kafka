@@ -2,6 +2,7 @@ package com.kafka.consumer.config;
 
 import com.kafka.consumer.models.User;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.IntegerDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -43,17 +44,17 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, User> consumerFactoryUser() {
+    public ConsumerFactory<Integer, User> consumerFactoryUser() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
-        return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), new JsonDeserializer<>(User.class, false));
+        return new DefaultKafkaConsumerFactory<>(props, new IntegerDeserializer(), new JsonDeserializer<>(User.class, false));
 
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, User> kafkaListenerContainerFactoryUser() {
-        ConcurrentKafkaListenerContainerFactory<String, User> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public ConcurrentKafkaListenerContainerFactory<Integer, User> kafkaListenerContainerFactoryUser() {
+        ConcurrentKafkaListenerContainerFactory<Integer, User> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactoryUser());
         return factory;
     }

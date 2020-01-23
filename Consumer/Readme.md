@@ -1,1 +1,2 @@
-mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=8085,--spring.profiles.active=C1
+Consumer first => mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=8085,--spring.profiles.active=C1
+Consumer second => mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=8086,--spring.profiles.active=C2

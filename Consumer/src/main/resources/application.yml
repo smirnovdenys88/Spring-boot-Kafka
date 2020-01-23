@@ -19,6 +19,7 @@ spring:
       group-id: C1
       bootstrap-servers: localhost:9092
       auto-offset-reset: earliest
+#Another profiles name C2, border between different profiles must be '---'
 ---
 spring:
   profiles: C2
@@ -36,6 +37,26 @@ spring:
   kafka:
     address: localhost:9092
     consumer:
-      group-id: C2
+      group-id: C1
       bootstrap-servers: localhost:9092
-      auto-offset-reset: earliest
+      auto-offset-reset:  earliest
+---
+spring:
+  profiles: C3
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/comsumer_2
+    username: postgres
+    password: masterkey
+    driverClassName: org.postgresql.Driver
+  kafka:
+    address: localhost:9092
+    consumer:
+      group-id: C1
+      bootstrap-servers: localhost:9092
+      auto-offset-reset:  earliest
