@@ -1,9 +1,11 @@
 package com.kafka.consumer.models;
 
+import javax.validation.constraints.Max;
 import java.util.Objects;
 
 public class User {
     private String name;
+    @Max(1)
     private int age;
 
     public User() {

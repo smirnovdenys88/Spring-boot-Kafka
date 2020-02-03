@@ -28,7 +28,7 @@ public class KafkaTopicConfig {
     //use NewTopic
     @Bean
     public NewTopic topic1() {
-        return new NewTopic("my_topic", 1, (short) 1);
+        return new NewTopic("my_topic", 2, (short) 1);
     }
 
     //use TopicBuilder
