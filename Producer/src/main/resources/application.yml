@@ -7,3 +7,6 @@ spring:
       bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    topic:
+      test_topic: test_topic
+      user_topic: user_topic

@@ -1,0 +1,32 @@
+version: '2'
+services:
+#  postgresql:
+#    image: "postgres:10.7"
+#    container_name: postgres-stubb
+#    ports:
+#      - "5432:5432"
+#    environment:
+#      - POSTGRES_DB=consumer_1
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=masterkey
+#    volumes:
+#      - ./init.sql:/docker-entrypoint-initdb.d/1-init.sql
+#    restart: always
+  app1:
+    image: app1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend
+    environment:
+      - "SPRING_ACTIVE_PROFILES=C1"
+    ports:
+      - "8080:8080"
+  app2:
+    image: app2
+    build: .
+    container_name: backend1
+    environment:
+      - "SPRING_ACTIVE_PROFILES=C2"
+    ports:
+      - "9011:8080"

@@ -1,0 +1,12 @@
+server:
+  port: 8088
+spring:
+  kafka:
+    address: localhost:9092
+    consumer:
+      group-id: dct-group
+      bootstrap-servers: localhost:9092
+      auto-offset-reset: earliest
+    topic:
+      test_topic: test_topic
+      user_topic: user_topic

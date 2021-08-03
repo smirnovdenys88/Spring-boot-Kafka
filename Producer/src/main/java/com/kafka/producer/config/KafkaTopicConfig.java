@@ -17,6 +17,12 @@ public class KafkaTopicConfig {
     @Value("${spring.kafka.address}")
     private String bootstrapAddress;
 
+    @Value("${spring.kafka.topic.test_topic}")
+    private String testTopic;
+
+    @Value("${spring.kafka.topic.user_topic}")
+    private String userTopic;
+
     //automatically add topics to the broker
     @Bean
     public KafkaAdmin kafkaAdmin() {
@@ -28,15 +34,15 @@ public class KafkaTopicConfig {
     //use NewTopic
     @Bean
     public NewTopic topic1() {
-        return new NewTopic("my_topic", 2, (short) 1);
+        return new NewTopic(testTopic, 2, (short) 1);
     }
 
     //use TopicBuilder
     @Bean
     public NewTopic topicUser() {
-        return TopicBuilder.name("user") // name topic
-                .partitions(2)  // ?
-                .replicas(1)   // Replicas are nothing but backups of a partition. Replicas never read or write data. They are used to
+        return TopicBuilder.name(userTopic) // name topic
+//                .partitions(2)  // ?
+//                .replicas(1)   // Replicas are nothing but backups of a partition. Replicas never read or write data. They are used to
                 // prevent data loss
                 .build();
     }
