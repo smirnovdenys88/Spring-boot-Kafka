@@ -1,7 +1,7 @@
-package com.kafka.producer.engine;
+package com.kafka.consumer.engine;
 
 
-import com.kafka.producer.models.User;
+import com.kafka.consumer.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class Producer {
@@ -40,6 +39,10 @@ public class Producer {
 
     public Producer(KafkaTemplate<Integer, User> userKafkaTemplate) {
         this.userKafkaTemplate = userKafkaTemplate;
+    }
+
+    public void sendUser(String topic, User user){
+        this.userKafkaTemplate.send(topic, user);
     }
 
     @Scheduled(fixedRate = 3000)

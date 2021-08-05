@@ -1,6 +1,7 @@
 package com.kafka.consumer.engine;
 
 import com.kafka.consumer.models.User;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -14,11 +15,15 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Data
 public class Consumer {
+    private CountDownLatch latch = new CountDownLatch(1);
+    private User payload = null;
 
     @KafkaListener(topics = "${spring.kafka.topic.user_topic}", containerFactory = "kafkaListenerContainerFactoryUser")
     public void consumeUser(@Payload User user,
@@ -31,5 +36,13 @@ public class Consumer {
                 "\nRECEIVED_PARTITION_ID: {} " +
                 "\nRECEIVED_TOPIC: {} " +
                 "\nRECEIVED_TIMESTAMP: {} ", user.toString(), key, partition, topic, ts);
+
+        setPayload(user);
+        latch.countDown();
     }
+
+    public CountDownLatch getLatch() {
+        return latch;
+    }
+
 }
